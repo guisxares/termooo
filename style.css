@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto";
+    background-color: #6e5c62;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.content h1 {
+    color: #fff;
+    font-weight: 900;
+    font-size: 30px;
+    letter-spacing: 0.01cm;
+}
+
+.jogo {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+
+.letras {
+    display: flex;
+    flex-wrap: wrap;
+    place-content: center;
+    width: 345px;
+    gap: 5px;
+    margin: 30px 0;
+}
+
+.letra, .letra-esc {
+    display: flex;
+    align-items: center;
+    place-content: center;
+    height: 55px;
+    width: 55px;
+    border-radius: 10px;
+    font-size: 35px;
+    font-weight: 900;
+    color: #fff;
+}
+
+.letra, .fileira li {
+    background-color: transparent;
+    border: #4C4347 4px solid;
+    font-weight: 900;
+}
+
+.letra-atual {
+    border-bottom: #4C4347 8px solid;
+}
+
+.letra-esc {
+    background-color: #615458;
+}
+
+.fileiras {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 5px;
+    margin: 30px 0;
+    width: fit-content;
+}
+
+.fileira {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.fileira-2 {
+    margin-left: 15px;
+}
+
+.fileira-3 {
+    margin-left: 30px;
+}
+
+.fileira ul {
+    display: flex;
+    flex-direction: row;
+    flex: wrap;
+    width: 345px;
+    gap: 20px;
+}
+
+.fileira li {
+    display: flex;
+    align-items: center;
+    place-content: center;
+    list-style: none;
+    color: #fff;
+    width: 50px;
+    height: 60px;
+    background-color: #504a4b;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+}
+
+#del, #enter {
+    text-transform: uppercase;
+    width: 85px;
+    padding: 0 15px;
+    margin-left: auto;
+    font-size: 15px;
+}
