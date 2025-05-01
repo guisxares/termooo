@@ -63,16 +63,16 @@ document.addEventListener("click", function(event){
             }
         }
     } else if(elemento.id == "del"){
-            letraAtual.textContent = '';
-            if(idAtual != 1)  {
-                letraAtual.className = "letra";
+        letraAtual.textContent = '';
+        if(idAtual != 1)  {
+            letraAtual.className = "letra";
+        }
+        if(idAtual > 1 && idAtual <= 30){
+            antId = Number(idAtual) - 1;
+            elemento2 = document.getElementById(String(antId));
+            if(elemento2){
+                elemento2.className = "letra letra-atual";
             }
-            if(idAtual > 1 && idAtual <= 30){
-                antId = Number(idAtual) - 1;
-                elemento2 = document.getElementById(String(antId));
-                if(elemento2){
-                    elemento2.className = "letra letra-atual";
-                }
-            }
+        }
     }
 });

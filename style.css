@@ -89,15 +89,7 @@ body {
     margin-left: 30px;
 }
 
-.fileira ul {
-    display: flex;
-    flex-direction: row;
-    flex: wrap;
-    width: 345px;
-    gap: 20px;
-}
-
-.fileira li {
+.fileira button {
     display: flex;
     align-items: center;
     place-content: center;
@@ -109,6 +101,7 @@ body {
     border-radius: 10px;
     border: none;
     font-size: 20px;
+    font-weight: 900;
 }
 
 #del, #enter {
@@ -117,4 +110,5 @@ body {
     padding: 0 15px;
     margin-left: auto;
     font-size: 15px;
+    font-weight: 900;
 }
