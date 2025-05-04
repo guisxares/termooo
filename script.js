@@ -25,17 +25,31 @@ document.addEventListener("click", function(event){
     let letraAtual = document.querySelector(".letra-atual");
     let letraClicada = clicked.textContent;
 
-    if(clickedClass == "letra usada")return false;
-    if(clickedClass == ("letra")){
+    if(clickedClass == "letra-esc")return false;
+    if (clickedClass.includes("letra")) {
+        if(letraAtual==null)return false;
+        if (clickedClass == "letra usada") return false;
         letraAtual.className = "letra";
         clicked.className = "letra letra-atual";
-    } else if(arr.includes(clicked.textContent)){     
-        clicarLetra(letraAtual, letraClicada)
-    } else if(clicked.id == "del"){
+    } else if (arr.includes(clicked.textContent)) {
+        if(clicked.id == "closeWinner") {
+            document.getElementById("winner").style.display = "none";
+            document.getElementById("winner-bg").style.display = "none";
+        } else if(clicked.id=="closeLooser"){
+            document.getElementById("looser").style.display = "none";
+            document.getElementById("looser-bg").style.display = "none";
+        } else {
+            if(letraAtual==null)return false;
+            clicarLetra(letraAtual, letraClicada);
+        }
+    } else if (clicked.id == "del") {
+        if(letraAtual==null)return false;
         apagarLetra(letraAtual);
-    } else if(clicked.id == "enter"){
+    } else if (clicked.id == "enter") {
+        if(letraAtual==null)return false;
         enviarPalavra(letraAtual);
     }
+    
 });
 
 function apagarLetra(letraAtual){
@@ -43,16 +57,18 @@ function apagarLetra(letraAtual){
     let antId = Number(idAtual) - 1;
     let letraAnterior = document.getElementById(antId);
 
-    letraAtual.textContent = '';
-
-    if(!letraAnterior || letraAnterior.className=="letra usada")return false;
-    if(idAtual != 1)  {
-        letraAtual.className = "letra";
-    }
-    if(idAtual > 1 && idAtual <= 30){
-        if(letraAnterior){
-            letraAnterior.className = "letra letra-atual";
+    if(letraAtual.textContent.trim() === ""){
+        if(!letraAnterior || letraAnterior.className=="letra usada")return false;
+        if(idAtual != 1)  {
+            letraAtual.className = "letra";
         }
+        if(idAtual > 1 && idAtual <= 30){
+            if(letraAnterior){
+                letraAnterior.className = "letra letra-atual";
+            }
+        }
+    } else {
+        letraAtual.textContent = '';
     }
 }
 
@@ -117,7 +133,60 @@ function enviarPalavra(letraAtual){
         }
     }
 
-    // Libera a próxima linha
+    let posicoesErradas = [];
+    let letrasCorretas = {};
+    
+    for (let cont = primeiroDaLinhaId, cont2 = 0; cont <= ultimoDaLinhaId; cont++, cont2++) {
+        let letraJogo = document.getElementById(String(cont));
+        let letra = letraJogo.textContent;
+        if (letra === palavra[cont2]) {
+            letraJogo.style.backgroundColor = "#3AA394";
+            posicoesErradas.push("0");
+            letrasCorretas[letra] = (letrasCorretas[letra] || 0) + 1;
+        } else {
+            posicoesErradas.push(letra);
+        }
+        letraJogo.className = "letra usada";
+    }
+    
+    let letrasPalavra = {};
+    for (let letra of palavra) {
+        letrasPalavra[letra] = (letrasPalavra[letra] || 0) + 1;
+    }
+    
+    for (let i = 0; i < posicoesErradas.length; i++) {
+        let letra = posicoesErradas[i];
+        let letraJogo = document.getElementById(Number(primeiroDaLinhaId) + i);
+        if (letra !== "0") {
+            if (palavra.includes(letra)) {
+                let usadas = letrasCorretas[letra] || 0;
+                let permitidas = letrasPalavra[letra];
+                if (usadas < permitidas) {
+                    letraJogo.style.backgroundColor = "#D3AD69";
+                    letrasCorretas[letra] = usadas + 1;
+                } else {
+                    letraJogo.style.backgroundColor = "#312A2C";
+                }
+            } else {
+                letraJogo.style.backgroundColor = "#312A2C";
+            }
+        }
+    }
+
+    let letrasCertas = 0;
+    for(let cont = primeiroDaLinhaId, cont2 = 0; cont <= ultimoDaLinhaId; cont++, cont2++){
+        let letraJogo = document.getElementById(String(cont));
+        if(letraJogo.textContent == palavra[cont2]){
+            letrasCertas=letrasCertas+1;
+        }
+    }
+
+    if(letrasCertas == 5){
+        document.getElementById("winner-bg").style.display = "flex";
+        document.getElementById("winner").style.display = "flex";
+        return false;
+    }
+
     primeiroDaProxLinhaId = primeiroDaLinhaId+5;
     ultimoDaProxLinhaId = ultimoDaLinhaId+5;
     if(ultimoDaLinhaId != 30){
@@ -130,18 +199,9 @@ function enviarPalavra(letraAtual){
                 letraDaProxLinha.className = "letra";
             }
         }
-    }
-
-    // Verifica se ta certo ou errado
-    for(cont = primeiroDaLinhaId, cont2 = 1; cont <= ultimoDaLinhaId; cont++, cont2++){
-        letraJogo = document.getElementById(String(cont));
-        if(letraJogo.textContent == palavra[cont2-1]){
-            letraJogo.style.backgroundColor = "#3AA394";
-        } else if(palavra.includes(letraJogo.textContent)){
-            letraJogo.style.backgroundColor = "#D3AD69";
-        } else {
-            letraJogo.style.backgroundColor = "#312A2C";
-        }
-        letraJogo.className = "letra usada";
+    } else {
+        document.getElementById("looser-bg").style.display = "flex";
+        document.getElementById("looser").style.display = "flex";
+        return false;
     }
 }
